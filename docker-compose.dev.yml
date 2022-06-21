@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  web:
+    build: .
+    ports:
+      - 80:80
+    working_dir: /code
+    command: bash -c "uvicorn main:app --reload --host 0.0.0.0 --port 80"
+    volumes:
+      - ./app:/code
+  db:
+    image: postgres:14.3
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./data:/var/lib/postgresql/data
+  adminer:
+    image: adminer:4.8.1
+    ports:
+      - 8080:8080
